@@ -1,5 +1,6 @@
 let productsHTML = '';
 
+// This forEach iterates through the product array and create unique HTML for all index element
 products.forEach((product) => {
     productsHTML += `
         <div class="product-container">
@@ -46,7 +47,7 @@ products.forEach((product) => {
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
             Add to Cart
           </button>
         </div>
@@ -54,4 +55,35 @@ products.forEach((product) => {
 
 })
 
+// display the HTML on the amazon page
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+
+// Add an eventListener for every time user click the 'add to cart' button
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+
+        // Save the product name in a variable 
+        const productId = button.dataset.productId;
+
+        let matchingItem;
+
+        // Check if the item is already added to the cart
+        cart.forEach((item) => {
+            if (productId === item.productId) {
+                matchingItem = item;
+            }
+        });
+
+        if (matchingItem) {
+            matchingItem.quantity += 1;
+        } else {
+            cart.push({
+                productId: productId,
+                quantity: 1
+            });
+        };
+
+        console.log(cart);
+    });
+})
