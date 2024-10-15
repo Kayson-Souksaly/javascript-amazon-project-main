@@ -1,3 +1,5 @@
+import { cart } from "../data/cart";
+
 let productsHTML = '';
 
 // This forEach iterates through the product array and create unique HTML for all index element
