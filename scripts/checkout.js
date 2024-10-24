@@ -1,4 +1,4 @@
-import { cart, removeFromCart, calculateCartQuantity, updateQuantity } from "../data/cart.js";
+import { cart, removeFromCart, calculateCartQuantity, updateDeliveryOption } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
@@ -61,10 +61,10 @@ cart.forEach((cartItem) => {
                     <span>
                     Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
                     </span>
-                    <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${matchingProduct.id}">
+                    <span class="update-quantity-link link-primary js-update-quantity-link">
                     Update
                     </span>
-                    <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
+                    <span class="delete-quantity-link link-primary js-delete-link">
                     Delete
                     </span>
                 </div>
@@ -94,7 +94,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
         html += `
-            <div class="delivery-option">
+            <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id}" data-delivery-option-id="${deliveryOption.id}">
                 <input type="radio" ${isChecked ? 'checked' : ''}
                 class="delivery-option-input"
                 name="delivery-option-${matchingProduct.id}">
@@ -132,5 +132,13 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
         const container = document.querySelector(`.js-cart-item-container-${productId}`);
         container.remove();
         updateCartQuantity();
+    });
+});
+
+document.querySelectorAll('.js-delivery-option').forEach((element) => {
+    element.addEventListener('click', () => {
+        const {productId, deliveryOptionId} = element.dataset;
+        console.log(deliveryOptionId)
+        updateDeliveryOption(productId, deliveryOptionId);
     });
 });
