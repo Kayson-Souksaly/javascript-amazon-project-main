@@ -66,12 +66,10 @@ export function calculateCartQuantity(cart) {
 export function updateDeliveryOption(productId, deliveryOptionId) {
     let matchingItem;
     
-    console.log(productId)
     // Check if the item is already added to the cart
     cart.forEach((cartItem) => {
         if (productId === cartItem.productId) {
             matchingItem = cartItem;
-            console.log(matchingItem)
         }
     });
 
